@@ -27,6 +27,15 @@ function PrintDiffs {
     readarray -t <<< $diffs
     for diff in ${MAPFILE[@]}; do
         printf "    \033[1;33m$diff\033[0m\n"
+        if [[ $diff == *"/proc/cmdline"* ]]; then
+            ref_cmdline=($(cat $REFERENCE_SYSTEM_HASH_PATH/boot_cmdline.info))
+            cur_cmdline=($(cat $SYSTEM_HASH_DIR/boot_cmdline.info))
+
+            cmdline_diffs=$(echo ${ref_cmdline[@]} ${cur_cmdline[@]} | tr ' ' '\n' | sort | uniq -u)
+            while IFS= read -r param; do
+                printf "        * $param\n"
+            done <<< "$cmdline_diffs"
+        fi
     done
 
     printf "\n"
