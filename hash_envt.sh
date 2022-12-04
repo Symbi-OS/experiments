@@ -72,6 +72,7 @@ echo "$(lscpu)" > cpu.info
 echo "$(sudo lspci | grep -i wireless)" > wireless_card.info
 echo "$(sudo lspci | grep -i ethernet)" > ethernet_card.info
 echo "$(cat /proc/meminfo)" > mem.info
+echo "$(lsblk)" > disk.info
 
 # Removing runtime-variability from cpu info
 awk '!/CPU MHz:/' cpu.info > cputmp && mv cputmp cpu.info
@@ -101,4 +102,4 @@ printf "Total System Hash    : $TOTAL_SYSTEM_HASH\n"
 # ----------------------- Cleanup --------------------------- #
 
 mkdir -p system_hash
-mv mem.info cpu.info wireless_card.info ethernet_card.info software_hash* hardware_hash* total_system_hash ./system_hash/
+mv disk.info mem.info cpu.info wireless_card.info ethernet_card.info software_hash* hardware_hash* total_system_hash ./system_hash/
