@@ -26,7 +26,7 @@ CUR_HARDWARE_HASH=$(cat $SYSTEM_HASH_DIR/hardware_hash)
 # Params:
 #    $1 -- fileA to compare
 #    $2 -- fileB to compare
-function PrintDiffs {
+function PrintSoftwareDiffs {
     diffs=$(grep -v -F -x -f $1 $2 | awk '{print $1;}')
     readarray -t <<< $diffs
     for diff in ${MAPFILE[@]}; do
@@ -50,13 +50,26 @@ function PrintDiffs {
     printf "\n"
 }
 
+# Params:
+#    $1 -- fileA to compare
+#    $2 -- fileB to compare
+function PrintHardwareDiffs {
+    diffs=$(grep -v -F -x -f $1 $2 | awk '{print $1;}')
+    readarray -t <<< $diffs
+    for diff in ${MAPFILE[@]}; do
+        printf "    \033[1;33m$diff\033[0m\n"
+    done
+
+    printf "\n"
+}
+
 # ------------ Searching Software Differences ------------ #
 function FindSoftwareDifferences {
     printf "\n*---- Software Differences: ----*\n"
     ref_details=$REFERENCE_SYSTEM_HASH_PATH/software_hash.details
     cur_details=$SYSTEM_HASH_DIR/software_hash.details
 
-    PrintDiffs $ref_details $cur_details
+    PrintSoftwareDiffs $ref_details $cur_details
 }
 
 # ------------ Searching Hardware Differences ------------ #
@@ -65,7 +78,7 @@ function FindHardwareDifferences {
     ref_details=$REFERENCE_SYSTEM_HASH_PATH/hardware_hash.details
     cur_details=$SYSTEM_HASH_DIR/hardware_hash.details
 
-    PrintDiffs $ref_details $cur_details
+    PrintHardwareDiffs $ref_details $cur_details
 }
 
 # ------------ CHECKING FOR SOFTWARE DIFFS ------------ #
