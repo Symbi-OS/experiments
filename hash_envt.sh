@@ -14,6 +14,9 @@ LAST_PRODUCED_HASH=""
 #   $2 -- output file
 #   $3 -- [bool] should use file contents
 function ProduceMd5Hash {
+	# Newline for cosmetics
+	if [ $CONF_VERBOSE -eq 1 ]; then echo ""; fi
+
 	RUNNING_HASH=""
 	rm -rf $2.details
 
@@ -32,7 +35,6 @@ function ProduceMd5Hash {
 
 		printf '%-50s %s\n' "$entry" "$current_hash" >> $2.details
 	done
-	if [ $CONF_VERBOSE -eq 1 ]; then echo ""; fi
 
 	LAST_PRODUCED_HASH=$(echo "$RUNNING_HASH" | md5sum | grep -o "^\w*\b")
 
@@ -60,7 +62,7 @@ fi
 # ---------------- Producing Software Hash ------------------ #
 
 ProduceMd5Hash REQUIRED_HASHES "software_hash" 0
-printf "Software System Hash: $LAST_PRODUCED_HASH\n\n"
+printf "Software System Hash : $LAST_PRODUCED_HASH\n"
 
 SOFTWARE_HASH=$LAST_PRODUCED_HASH
 
@@ -84,10 +86,21 @@ REQUIRED_HASHES=($CPU_INFO $NETWORK_CARD_WIRELESS_INFO $NETWORK_CARD_ETHERNET_IN
 # ---------------- Producing Hardware Hash ------------------ #
 
 ProduceMd5Hash REQUIRED_HASHES "hardware_hash" 1
-printf "Hardware System Hash: $LAST_PRODUCED_HASH\n\n"
+printf "Hardware System Hash : $LAST_PRODUCED_HASH\n"
 
 HARDWARE_HASH=$LAST_PRODUCED_HASH
 
+# -------------- Producing Total System Hash ---------------- #
+
+SYSTEM_HASH_STRING="$SOFTWARE_HASH$HARDWARE_HASH"
+TOTAL_SYSTEM_HASH=$(echo "$SYSTEM_HASH_STRING" | md5sum | grep -o "^\w*\b")
+
+echo "$TOTAL_SYSTEM_HASH" > total_system_hash
+printf "Total System Hash    : $TOTAL_SYSTEM_HASH\n"
+
 # ----------------------- Cleanup --------------------------- #
+
+mkdir -p system_hash
+mv software_hash* hardware_hash* total_system_hash ./system_hash/
 
 rm -rf cpu.info mem.info wireless_card.info ethernet_card.info
