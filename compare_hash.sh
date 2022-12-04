@@ -6,7 +6,11 @@ if [ ! -d "$SYSTEM_HASH_DIR" ]; then
     exit 1
 fi
 
-read -e -p "Reference system-hash path: " REFERENCE_SYSTEM_HASH_PATH
+if [ -n "$1" ]; then
+    REFERENCE_SYSTEM_HASH_PATH=$1
+else
+    read -e -p "Reference system-hash path: " REFERENCE_SYSTEM_HASH_PATH
+fi
 
 if [ ! -d "$REFERENCE_SYSTEM_HASH_PATH" ]; then
     echo "Error: could not find reference system hash"
