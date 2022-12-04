@@ -127,3 +127,6 @@ mv disk.info mem.info software_hash* hardware_hash* total_system_hash ./$SYSTEM_
 for file in ${REQUIRED_HASHES[@]}; do
 	mv $file ./$SYSTEM_HASH_DIR/
 done
+
+# Save boot command line to disk
+echo "$(cat /proc/cmdline)" > ./$SYSTEM_HASH_DIR/boot_cmdline.info
