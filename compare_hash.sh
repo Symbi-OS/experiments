@@ -37,7 +37,12 @@ function PrintDiffs {
 
             cmdline_diffs=$(echo ${ref_cmdline[@]} ${cur_cmdline[@]} | tr ' ' '\n' | sort | uniq -u)
             while IFS= read -r param; do
-                printf "        * $param\n"
+                #printf "        * $param\n"
+                if [[ " ${cur_cmdline[@]} " =~ .*\ $param\ .* ]]; then
+                    printf "        * $param (found)\n"
+                else
+                    printf "        * $param (missing)\n"
+                fi
             done <<< "$cmdline_diffs"
         fi
     done
