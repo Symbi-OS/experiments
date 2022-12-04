@@ -74,6 +74,23 @@ echo "$(sudo lspci | grep -i ethernet)" > ethernet_card.info
 echo "$(cat /proc/meminfo)" > mem.info
 echo "$(lsblk)" > disk.info
 
+# Check for turboboost
+if [ -f "/sys/devices/system/cpu/cpufreq/boost" ]; then
+	state="$(cat /sys/devices/system/cpu/cpufreq/boost)"
+	if [ $state -eq "1" ]; then
+		echo "Turboboost: on" > turboboost.info
+	else
+		echo "Turboboost: off" > turboboost.info
+	fi
+else
+	state="$(cat /sys/devices/system/cpu/intel_pstate/no_turbo)"
+	if [ $state -eq "0" ]; then
+		echo "Turboboost: on" > turboboost.info
+	else
+		echo "Turboboost: off" > turboboost.info
+	fi
+fi
+
 # Removing runtime-variability from cpu info
 awk '!/CPU MHz:/' cpu.info > cputmp && mv cputmp cpu.info
 awk '!/BogoMIPS:/' cpu.info > cputmp && mv cputmp cpu.info
@@ -81,8 +98,9 @@ awk '!/BogoMIPS:/' cpu.info > cputmp && mv cputmp cpu.info
 CPU_INFO=cpu.info
 NETWORK_CARD_WIRELESS_INFO=wireless_card.info
 NETWORK_CARD_ETHERNET_INFO=ethernet_card.info
+TURBOBOOST_INFO=turboboost.info
 
-REQUIRED_HASHES=($CPU_INFO $NETWORK_CARD_WIRELESS_INFO $NETWORK_CARD_ETHERNET_INFO)
+REQUIRED_HASHES=($CPU_INFO $NETWORK_CARD_WIRELESS_INFO $NETWORK_CARD_ETHERNET_INFO $TURBOBOOST_INFO)
 
 # ---------------- Producing Hardware Hash ------------------ #
 
@@ -104,4 +122,8 @@ printf "Total System Hash    : $TOTAL_SYSTEM_HASH\n"
 SYSTEM_HASH_DIR=$(hostname)-system-hash
 
 mkdir -p $SYSTEM_HASH_DIR
-mv disk.info mem.info cpu.info wireless_card.info ethernet_card.info software_hash* hardware_hash* total_system_hash ./$SYSTEM_HASH_DIR/
+mv disk.info mem.info software_hash* hardware_hash* total_system_hash ./$SYSTEM_HASH_DIR/
+
+for file in ${REQUIRED_HASHES[@]}; do
+	mv $file ./$SYSTEM_HASH_DIR/
+done
