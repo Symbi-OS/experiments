@@ -1,10 +1,21 @@
 #!/bin/bash
 
-CONF_VERBOSE=1
+CONF_VERBOSE=0
 
-if [ "$1" != "-v" ]; then
-	CONF_VERBOSE=0
-fi
+while getopts 've:' OPTION; do
+  	case "$OPTION" in
+    e)
+		expt_dir="$OPTARG"
+    	;;
+    v)
+		CONF_VERBOSE=1
+		;;
+    ?)
+		echo "Usage: $0 [-v] [-e experiment_path]"
+		exit 1
+		;;
+  	esac
+done
 
 # Last produced system hash
 LAST_PRODUCED_HASH=""
@@ -51,7 +62,9 @@ BOOT_CMDLINE=/proc/cmdline
 
 REQUIRED_HASHES=($KERNEL_IMAGE $SYSTEM_MAP $BOOT_CMDLINE)
 
-read -e -p "Experiment directory: " expt_dir
+if [ -z "$expt_dir" ]; then
+	read -e -p "Experiment directory: " expt_dir
+fi
 
 if [ -f "$expt_dir/experiment_binaries" ]; then
 	while read binary; do
