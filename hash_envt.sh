@@ -51,7 +51,7 @@ BOOT_CMDLINE=/proc/cmdline
 
 REQUIRED_HASHES=($KERNEL_IMAGE $SYSTEM_MAP $BOOT_CMDLINE)
 
-read -p "Experiment directory: " expt_dir
+read -e -p "Experiment directory: " expt_dir
 
 if [ -f "$expt_dir/experiment_binaries" ]; then
 	while read binary; do
