@@ -10,10 +10,11 @@ fi
 
 KERNEL_IMAGE=/boot/vmlinuz-5.1.18-300.fc30.x86_64
 SYSTEM_MAP=/boot/System.map-5.1.18-300.fc30.x86_64
+BOOT_CMDLINE=/proc/cmdline
 
 # ----------------------------------------------------------- #
 
-REQUIRED_HASHES=($KERNEL_IMAGE $SYSTEM_MAP)
+REQUIRED_HASHES=($KERNEL_IMAGE $SYSTEM_MAP $BOOT_CMDLINE)
 
 read -p "Experiment directory: " expt_dir
 
