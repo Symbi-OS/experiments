@@ -71,17 +71,17 @@ SOFTWARE_HASH=$LAST_PRODUCED_HASH
 echo "$(lscpu)" > cpu.info
 echo "$(sudo lspci | grep -i wireless)" > wireless_card.info
 echo "$(sudo lspci | grep -i ethernet)" > ethernet_card.info
-echo "$(sudo dmidecode --type 17)" > mem.info
+echo "$(cat /proc/meminfo)" > mem.info
 
 # Removing runtime-variability from cpu info
 awk '!/CPU MHz:/' cpu.info > cputmp && mv cputmp cpu.info
+awk '!/BogoMIPS:/' cpu.info > cputmp && mv cputmp cpu.info
 
 CPU_INFO=cpu.info
 NETWORK_CARD_WIRELESS_INFO=wireless_card.info
 NETWORK_CARD_ETHERNET_INFO=ethernet_card.info
-MEM_INFO=mem.info
 
-REQUIRED_HASHES=($CPU_INFO $NETWORK_CARD_WIRELESS_INFO $NETWORK_CARD_ETHERNET_INFO $MEM_INFO)
+REQUIRED_HASHES=($CPU_INFO $NETWORK_CARD_WIRELESS_INFO $NETWORK_CARD_ETHERNET_INFO)
 
 # ---------------- Producing Hardware Hash ------------------ #
 
@@ -101,6 +101,6 @@ printf "Total System Hash    : $TOTAL_SYSTEM_HASH\n"
 # ----------------------- Cleanup --------------------------- #
 
 mkdir -p system_hash
-mv software_hash* hardware_hash* total_system_hash ./system_hash/
+mv mem.info software_hash* hardware_hash* total_system_hash ./system_hash/
 
-rm -rf cpu.info mem.info wireless_card.info ethernet_card.info
+rm -rf cpu.info wireless_card.info ethernet_card.info
