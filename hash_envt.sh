@@ -11,11 +11,17 @@ fi
 KERNEL_IMAGE=/boot/vmlinuz-5.1.18-300.fc30.x86_64
 SYSTEM_MAP=/boot/System.map-5.1.18-300.fc30.x86_64
 
-EXPERIMENT_BINARIES=/bin/redis-server
-
 # ----------------------------------------------------------- #
 
-REQUIRED_HASHES=($KERNEL_IMAGE $SYSTEM_MAP $EXPERIMENT_BINARIES)
+REQUIRED_HASHES=($KERNEL_IMAGE $SYSTEM_MAP)
+
+read -p "Experiment directory: " expt_dir
+
+if [ -f "$expt_dir/experiment_binaries" ]; then
+	while read binary; do
+  		REQUIRED_HASHES+=($binary)
+	done < "$expt_dir/experiment_binaries"
+fi
 
 # ----------------------------------------------------------- #
 
