@@ -1,0 +1,4 @@
+/boot/vmlinuz-5.1.18-300.fc30.x86_64               975221be1045bc744ff5263d3ea0d792
+/boot/System.map-5.1.18-300.fc30.x86_64            3b239f6353562ffc4126376886951db0
+/proc/cmdline                                      bff6885d6ab11c60a638d3da6c006fc6
+/bin/redis-server                                  38c98076e2040f01289629f656956cea
