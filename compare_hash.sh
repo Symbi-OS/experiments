@@ -1,7 +1,17 @@
 #!/bin/bash
 SYSTEM_HASH_DIR=$(hostname)-system-hash
 
+if [ ! -d "$SYSTEM_HASH_DIR" ]; then
+    echo "Error: no system hash detected for the current system"
+    exit 1
+fi
+
 read -e -p "Reference system-hash path: " REFERENCE_SYSTEM_HASH_PATH
+
+if [ ! -d "$REFERENCE_SYSTEM_HASH_PATH" ]; then
+    echo "Error: could not find reference system hash"
+    exit 1
+fi
 
 REF_SOFTWARE_HASH=$(cat $REFERENCE_SYSTEM_HASH_PATH/software_hash)
 CUR_SOFTWARE_HASH=$(cat $SYSTEM_HASH_DIR/software_hash)
