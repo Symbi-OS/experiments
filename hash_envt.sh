@@ -101,5 +101,7 @@ printf "Total System Hash    : $TOTAL_SYSTEM_HASH\n"
 
 # ----------------------- Cleanup --------------------------- #
 
-mkdir -p system_hash
-mv disk.info mem.info cpu.info wireless_card.info ethernet_card.info software_hash* hardware_hash* total_system_hash ./system_hash/
+SYSTEM_HASH_DIR=$(hostname)-system-hash
+
+mkdir -p $SYSTEM_HASH_DIR
+mv disk.info mem.info cpu.info wireless_card.info ethernet_card.info software_hash* hardware_hash* total_system_hash ./$SYSTEM_HASH_DIR/
