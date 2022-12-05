@@ -1,0 +1,1 @@
+BOOT_IMAGE=(hd0,msdos1)/boot/vmlinuz-5.1.18-300.fc30.x86_64 root=UUID=d0cf3a06-7b0c-4ce3-a171-1841fee88ae6 ro rd.iscsi.initiator=initiator rd.iscsi.firmware=1 rd.iscsi.ibft=1
