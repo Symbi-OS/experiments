@@ -1,0 +1,1 @@
+BOOT_IMAGE=(hd1,gpt2)/vmlinuz-5.14.0-symbiote+ root=UUID=27733bb9-0cf7-4025-8df6-c0be099f6ce4 ro rootflags=subvol=root rhgb quiet nosmep nosmap nosmt
