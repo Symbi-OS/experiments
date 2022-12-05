@@ -64,13 +64,7 @@ function PrintHardwareDiffs {
 
         SAVEIFS=$IFS   # Save current IFS (Internal Field Separator)
         IFS=$'\n'      # Change IFS to newline char
-
-        # file_diffs_missing_items=$(diff -w --new-line-format="" --unchanged-line-format="" $ref_file $cur_file)
-        # IFS=$'\n' file_diffs=($file_diffs_found_items)
-        # for (( i=0; i<${#file_diffs[@]}; i++ )); do
-        #     printf "        - \033[1;31m${file_diffs[$i]}\033[0m\n"
-        # done
-
+        
         file_diff_items=$(diff -w --new-line-format="" --unchanged-line-format="" $ref_file $cur_file)
         file_diffs=($file_diff_items)
         for (( i=0; i<${#file_diffs[@]}; i++ )); do
