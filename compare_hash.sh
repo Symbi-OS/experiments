@@ -58,6 +58,32 @@ function PrintHardwareDiffs {
     readarray -t <<< $diffs
     for diff in ${MAPFILE[@]}; do
         printf "    \033[1;33m$diff\033[0m\n"
+
+        ref_file=$REFERENCE_SYSTEM_HASH_PATH/$diff
+        cur_file=$SYSTEM_HASH_DIR/$diff
+
+        SAVEIFS=$IFS   # Save current IFS (Internal Field Separator)
+        IFS=$'\n'      # Change IFS to newline char
+
+        # file_diffs_missing_items=$(diff -w --new-line-format="" --unchanged-line-format="" $ref_file $cur_file)
+        # IFS=$'\n' file_diffs=($file_diffs_found_items)
+        # for (( i=0; i<${#file_diffs[@]}; i++ )); do
+        #     printf "        - \033[1;31m${file_diffs[$i]}\033[0m\n"
+        # done
+
+        file_diff_items=$(diff -w --new-line-format="" --unchanged-line-format="" $ref_file $cur_file)
+        file_diffs=($file_diff_items)
+        for (( i=0; i<${#file_diffs[@]}; i++ )); do
+            printf "        - \033[1;31m${file_diffs[$i]}\033[0m\n"
+        done
+
+        file_diff_items=$(diff -w --new-line-format="" --unchanged-line-format="" $cur_file $ref_file)
+        file_diffs=($file_diff_items)
+        for (( i=0; i<${#file_diffs[@]}; i++ )); do
+            printf "        + \033[1;32m${file_diffs[$i]}\033[0m\n"
+        done
+
+        IFS=$SAVEIFS   # Restore original IFS
     done
 
     printf "\n"
