@@ -54,8 +54,8 @@ function ProduceMd5Hash {
 
 # --------------- Software Requirements --------------------- #
 
-KERNEL_IMAGE=/boot/vmlinuz-5.1.18-300.fc30.x86_64
-SYSTEM_MAP=/boot/System.map-5.1.18-300.fc30.x86_64
+KERNEL_IMAGE=$(grubby --default-kernel)
+SYSTEM_MAP=$(ls /boot/System.map-`uname -r`)
 BOOT_CMDLINE=/proc/cmdline
 
 # --------------- Software Required Hashse ------------------ #
