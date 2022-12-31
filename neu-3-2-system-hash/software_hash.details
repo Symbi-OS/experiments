@@ -1,4 +1,4 @@
-/boot/vmlinuz-5.1.18-300.fc30.x86_64               
-/boot/System.map-5.1.18-300.fc30.x86_64            
+/boot/vmlinuz-5.17.5-300.fc36.x86_64               cb6cf6430ebc14df7b9833b9ffb7379a
+/boot/System.map-5.17.5-300.fc36.x86_64            236ca997776237acbc31f8f328159c93
 /proc/cmdline                                      6724a40f219b0be4812e489ce232a30e
 /root/Symbi-OS/artifacts/redis/fed36/redis-server  2eaa0a4148af320771dcfa4ba2a7507b
