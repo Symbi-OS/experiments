@@ -1,5 +1,6 @@
-NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
 sda      8:0    0 558.4G  0 disk 
-└─sda1   8:1    0 558.4G  0 part 
+└─sda1   8:1    0 558.4G  0 part /root/harddrive
 sdb      8:16   0   100G  0 disk 
 └─sdb1   8:17   0   100G  0 part /
+zram0  252:0    0     8G  0 disk [SWAP]
